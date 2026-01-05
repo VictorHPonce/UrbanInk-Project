@@ -1,0 +1,15 @@
+# Ignorar carpetas de compilación
+bin/
+obj/
+
+# Ignorar archivos temporales de Visual Studio (¡AQUÍ ESTÁ TU ERROR!)
+.vs/
+.vscode/
+
+# Ignorar archivos de usuario
+*.user
+*.suo
+*.userprefs
+
+# Ignorar configuraciones locales (secretos)
+appsettings.Development.json

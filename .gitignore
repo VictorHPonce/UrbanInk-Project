@@ -1,0 +1,12 @@
+.git
+.vscode
+.idea
+.env
+docker-compose.override.yml
+uploaded_images/
+
+# Por seguridad, ignora también recursivamente estas carpetas comunes
+**/bin/
+**/obj/
+**/.vs/
+**/node_modules/

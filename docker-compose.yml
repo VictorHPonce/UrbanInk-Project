@@ -1,0 +1,56 @@
+services:
+  # 1. BASE DE DATOS (Nueva instancia aislada)
+  db-urbanink:
+    image: postgres:16-alpine
+    container_name: urbanink_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5435:5432" # Puerto externo 5435 para evitar conflictos
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. BACKEND API (.NET)
+  api-urbanink:
+    build:
+      context: ./UrbanInk.Api
+      dockerfile: Dockerfile
+    container_name: urbanink_api
+    restart: always
+    depends_on:
+      db-urbanink:
+        condition: service_healthy # Espera a que la DB esté lista
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db-urbanink;Port=5432;Database=${DB_NAME};Username=${DB_USER};Password=${DB_PASSWORD};
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - "8080:8080"
+    volumes:
+      # Persistencia de imágenes
+      # Mapea la carpeta 'uploaded_images' del VPS a la carpeta 'wwwroot' del contenedor
+      - ./uploaded_images:/app/wwwroot/images/products
+
+  # 3. FRONTEND (Angular + Nginx Interno)
+  front-urbanink:
+    build:
+      context: ./urbanink-front
+      dockerfile: Dockerfile
+    container_name: urbanink_front
+    restart: always
+    ports:
+      - "4200:80" # Exponemos el 80 interno al 4200 del VPS
+
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    name: urbanink_network
