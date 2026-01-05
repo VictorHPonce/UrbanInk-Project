@@ -1,0 +1,33 @@
+<div class="relative">
+  <button
+    (click)="toggle()"
+    class="flex items-center gap-2 bg-indigo-500 px-3 py-2 rounded hover:bg-indigo-400"
+  >
+    {{ auth.user()?.email }}
+    ⌄
+  </button>
+
+  @if (open()) {
+    <div class="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow">
+      <div class="px-4 py-2 text-sm border-b">
+        Rol: {{ auth.user()?.role }}
+      </div>
+
+      @if (auth.isAdmin()) {
+        <a
+          routerLink="/admin"
+          class="block px-4 py-2 hover:bg-gray-100"
+        >
+          Admin
+        </a>
+      }
+
+      <button
+        (click)="logout()"
+        class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
+      >
+        Logout
+      </button>
+    </div>
+  }
+</div>

@@ -1,0 +1,58 @@
+<div class="flex h-screen bg-[#F8FAFC] overflow-hidden">
+
+  <div class="md:hidden fixed top-0 w-full bg-slate-900 text-white z-50 flex items-center justify-between p-4 shadow-lg">
+    <div class="text-xl font-bold tracking-tighter">
+      Urban<span class="text-indigo-400">Admin</span>
+    </div>
+    <button (click)="isSidebarOpen.set(!isSidebarOpen())" class="p-2 text-slate-300 hover:text-white">
+      <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+
+  @if (isSidebarOpen()) {
+    <div (click)="isSidebarOpen.set(false)" class="fixed inset-0 bg-black/50 z-40 md:hidden backdrop-blur-sm transition-opacity"></div>
+  }
+
+  <aside 
+    [class.translate-x-0]="isSidebarOpen()" 
+    [class.-translate-x-full]="!isSidebarOpen()"
+    class="fixed md:relative z-50 w-72 h-full bg-slate-900 text-white flex flex-col transition-transform duration-300 ease-in-out md:translate-x-0 shadow-2xl md:shadow-none border-r border-slate-800">
+    
+    <div class="hidden md:block p-8 pb-6">
+      <h1 class="text-2xl font-black tracking-tighter text-white">
+        Urban<span class="text-transparent bg-clip-text bg-linear-to-r from-indigo-400 to-cyan-400">Admin</span>
+      </h1>
+      <p class="text-[10px] text-slate-500 font-medium uppercase tracking-widest mt-1">Panel de Control v2.0</p>
+    </div>
+    
+    <nav class="flex-1 px-4 space-y-1 overflow-y-auto py-4">
+      
+      <a [routerLink]="['/admin/dashboard']" 
+         routerLinkActive="bg-indigo-600/10 text-indigo-400 border-r-2 border-indigo-400" 
+         class="group flex items-center gap-3 px-4 py-3.5 text-sm font-medium text-slate-400 rounded-lg hover:bg-slate-800/50 hover:text-white transition-all">
+        <svg class="w-5 h-5 opacity-70 group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+        Dashboard
+      </a>
+
+      <a [routerLink]="['/admin/products']" 
+         routerLinkActive="bg-indigo-600/10 text-indigo-400 border-r-2 border-indigo-400"
+         class="group flex items-center gap-3 px-4 py-3.5 text-sm font-medium text-slate-400 rounded-lg hover:bg-slate-800/50 hover:text-white transition-all">
+        <svg class="w-5 h-5 opacity-70 group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        Productos
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-slate-800 bg-slate-900/50">
+      <button [routerLink]="['/']" class="w-full flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider border border-slate-700 rounded-lg hover:bg-slate-800 hover:text-white hover:border-slate-600 transition-all">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Ir a Tienda
+      </button>
+    </div>
+  </aside>
+
+  <main class="flex-1 overflow-auto bg-[#F8FAFC] w-full pt-16 md:pt-0">
+    <div class="p-4 md:p-8 lg:p-10 max-w-7xl mx-auto">
+      <router-outlet /> 
+    </div>
+  </main>
+</div>

@@ -1,0 +1,98 @@
+<div class="min-h-screen bg-gray-50 py-12 animate-in fade-in duration-500">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+      <h1 class="text-3xl font-black text-gray-900 tracking-tight">Finalizar Compra</h1>
+    </div>
+
+    @if (cartStore.count() > 0) {
+
+    <div class="lg:grid lg:grid-cols-12 lg:gap-x-12 xl:gap-x-16">
+
+      <div class="lg:col-span-7 order-2 lg:order-1">
+
+        <a routerLink="/" class="lg:hidden mb-6 text-indigo-600 font-medium hover:text-indigo-800 flex items-center gap-1">
+          &larr; Seguir comprando
+        </a>
+
+        <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" class="space-y-8">
+
+          <div formGroupName="contact" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group hover:border-indigo-100 transition-colors">
+            <div class="absolute top-0 left-0 w-1 h-full bg-indigo-500 rounded-l-full"></div>
+
+            <h2 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-3">
+              <span class="bg-indigo-100 text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-sm">1</span>
+              Datos de Contacto
+            </h2>
+
+            <div class="space-y-5 pl-2 sm:pl-11">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                <div class="relative">
+                  <input type="email" formControlName="email"
+                    class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 border transition-colors bg-gray-50/30 focus:bg-white pl-10"
+                    [class.border-red-300]="contact.get('email')?.invalid && contact.get('email')?.touched">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <app-icon name="mail" class="w-5 h-5" />
+                  </div>
+                </div>
+                @if (contact.get('email')?.invalid && contact.get('email')?.touched) {
+                   <p class="mt-1 text-xs text-red-600 font-medium animate-pulse">Introduce un email válido.</p>
+                }
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono Móvil</label>
+                <div class="relative">
+                  <input type="tel" formControlName="phone" placeholder="+34 600 000 000"
+                    class="block w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 py-3 px-4 border transition-colors bg-gray-50/30 focus:bg-white pl-10">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <app-icon name="phone" class="w-5 h-5" />
+                  </div>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Necesario para la gestión del envío.</p>
+              </div>
+            </div>
+          </div>
+
+          <app-shipping-form 
+             [parentForm]="checkoutForm" 
+             [savedAddresses]="savedAddresses()"
+             [isNewMode]="isNewAddressMode()"
+             (modeChanged)="toggleAddressMode()"
+             (selectAddress)="selectAddress($event)">
+          </app-shipping-form>
+
+          <button type="submit" [disabled]="checkoutForm.invalid || isSubmitting()"
+            class="w-full bg-linear-to-r from-indigo-600 to-indigo-700 border border-transparent rounded-xl py-4 px-4 text-white font-bold text-lg hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg shadow-indigo-200 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2 mt-8 transform hover:-translate-y-0.5 active:translate-y-0">
+            @if (isSubmitting()) {
+            <svg class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Procesando pago...
+            } @else {
+            <div class="flex items-center gap-2">
+              <app-icon name="credit-card" class="w-5 h-5" />
+              Pagar {{ cartStore.totalAmount() | currency }}
+            </div>
+            }
+          </button>
+        </form>
+      </div>
+
+      <div class="mt-10 lg:mt-0 lg:col-span-5 order-1 lg:order-2">
+         <app-order-summary></app-order-summary>
+      </div>
+
+    </div>
+
+    } @else {
+        <div class="flex flex-col items-center justify-center py-24 text-center space-y-6">
+            <h2 class="text-2xl font-bold text-gray-900">Tu carrito está vacío</h2>
+            <a routerLink="/" class="px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold">Explorar Tienda</a>
+        </div>
+    }
+
+  </div>
+</div>

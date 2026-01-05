@@ -1,0 +1,50 @@
+@if (confirmation.isOpen()) {
+  <div class="fixed inset-0 z-9998 bg-black/40 backdrop-blur-sm transition-opacity animate-in fade-in"></div>
+
+  <div class="fixed inset-0 z-9999 flex items-center justify-center p-4 overflow-y-auto">
+    
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all animate-in zoom-in-95 duration-200 border border-gray-100 p-6">
+      
+      <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full mb-4"
+        [class.bg-red-100]="confirmation.options().type === 'danger'"
+        [class.bg-blue-100]="confirmation.options().type === 'info'"
+        [class.bg-amber-100]="confirmation.options().type === 'warning'">
+        
+        @if (confirmation.options().type === 'danger') {
+          <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+        } @else {
+          <svg class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        }
+      </div>
+
+      <div class="text-center">
+        <h3 class="text-lg font-bold text-gray-900 leading-6">
+          {{ confirmation.options().title }}
+        </h3>
+        <div class="mt-2">
+          <p class="text-sm text-gray-500">
+            {{ confirmation.options().message }}
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-6 flex justify-end gap-3">
+        <button 
+          (click)="confirmation.cancel()"
+          class="px-4 py-2 bg-white text-gray-700 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors">
+          {{ confirmation.options().cancelText }}
+        </button>
+        
+        <button 
+          (click)="confirmation.accept()"
+          [class.bg-red-600]="confirmation.options().type === 'danger'"
+          [class.hover:bg-red-700]="confirmation.options().type === 'danger'"
+          [class.bg-indigo-600]="confirmation.options().type !== 'danger'"
+          [class.hover:bg-indigo-700]="confirmation.options().type !== 'danger'"
+          class="px-4 py-2 text-white text-sm font-bold rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors shadow-sm">
+          {{ confirmation.options().confirmText }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

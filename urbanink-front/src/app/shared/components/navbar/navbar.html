@@ -1,0 +1,32 @@
+<nav class="bg-indigo-600 text-white px-6 py-4 flex justify-between items-center">
+  <a routerLink="/" class="text-xl font-bold">
+    UrbanInk
+  </a>
+
+  <!-- Desktop -->
+  <div class="hidden md:flex items-center gap-6">
+    <a routerLink="/" class="hover:underline">Shop</a>
+
+    @if (auth.isAuthenticated()) {
+      <app-dropdown />
+    } @else {
+      <a routerLink="/auth/login" class="hover:underline">Login</a>
+    }
+  </div>
+
+  <!-- Mobile button -->
+  <button class="md:hidden" (click)="toggleMobile()">☰</button>
+</nav>
+
+<!-- Mobile menu -->
+@if (mobileOpen()) {
+  <div class="md:hidden bg-indigo-700 text-white px-6 py-4 space-y-3">
+    <a routerLink="/" class="block">Shop</a>
+
+    @if (auth.isAuthenticated()) {
+      <app-dropdown />
+    } @else {
+      <a routerLink="/auth/login" class="block">Login</a>
+    }
+  </div>
+}

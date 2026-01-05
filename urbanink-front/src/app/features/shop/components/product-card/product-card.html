@@ -1,0 +1,31 @@
+<div class="group relative bg-white border border-gray-200 rounded-lg flex flex-col overflow-hidden hover:shadow-lg transition-shadow duration-300">
+      
+      <div class="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-64 relative">
+        <img [src]="product().imageUrl" [alt]="product().name" class="h-full w-full object-cover object-center sm:h-full sm:w-full">
+        
+        @if (product().isNew) {
+          <span class="absolute top-2 left-2 bg-black text-white text-xs font-bold px-2 py-1 uppercase tracking-wide">
+            Nuevo
+          </span>
+        }
+      </div>
+
+      <div class="flex-1 p-4 space-y-2 flex flex-col">
+        <h3 class="text-sm font-medium text-gray-900">
+          <a [routerLink]="['/shop/product', product().id]">
+            <span aria-hidden="true" class="absolute inset-0"></span>
+            {{ product().name }}
+          </a>
+        </h3>
+        <p class="text-sm text-gray-500">{{ product().description }}</p>
+        <div class="flex-1 flex items-end justify-between">
+          <p class="text-lg font-medium text-gray-900">{{ product().price | currency }}</p>
+        </div>
+      </div>
+      
+      <button 
+        (click)="addToCart.emit(product())"
+        class="relative z-10 w-full bg-indigo-600 text-white py-2 text-sm font-bold hover:bg-indigo-700 transition-colors">
+        Añadir al Carrito
+      </button>
+    </div>

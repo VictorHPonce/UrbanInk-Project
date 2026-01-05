@@ -1,0 +1,62 @@
+<div class="min-h-screen bg-gray-50 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 animate-in fade-in duration-700">
+  
+  <div class="max-w-md w-full space-y-8 bg-white p-10 rounded-3xl shadow-xl border border-gray-100 relative overflow-hidden">
+    
+    <div class="absolute top-0 left-0 w-full h-2 bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+
+    <div class="flex justify-center">
+      <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+    </div>
+
+    <div class="text-center">
+      <h2 class="mt-2 text-3xl font-black text-gray-900 tracking-tight">
+        ¡Gracias, {{ orderDetails?.order?.customerName?.split(' ')[0] || 'Cliente' }}!
+      </h2>
+      <p class="mt-2 text-sm text-gray-500">
+        Tu pedido <span class="font-mono font-bold text-indigo-600">#{{ orderId() }}</span> ha sido confirmado.
+      </p>
+      <p class="text-sm text-gray-500">
+        Hemos enviado un recibo a <span class="font-medium text-gray-900">{{ orderDetails?.order?.customerEmail }}</span>.
+      </p>
+    </div>
+
+    @if (orderDetails?.items) {
+      <div class="mt-8 border-t border-b border-gray-100 py-6">
+        <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Resumen de compra</h3>
+        
+        <ul class="divide-y divide-gray-100">
+          @for (item of orderDetails.items; track item.product.id) {
+            <li class="flex py-3 items-center">
+              <img [src]="item.product.imageUrl" class="h-10 w-10 rounded-lg object-cover border border-gray-200 bg-gray-50">
+              <div class="ml-3 flex-1">
+                <p class="text-sm font-medium text-gray-900">{{ item.product.name }}</p>
+                <p class="text-xs text-gray-500">Cant: {{ item.quantity }}</p>
+              </div>
+              <p class="text-sm font-medium text-gray-900">{{ (item.product.price * item.quantity) | currency }}</p>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div class="flex justify-between items-center pt-2">
+        <span class="text-base font-medium text-gray-900">Total pagado</span>
+        <span class="text-xl font-black text-gray-900">{{ orderDetails?.total | currency }}</span>
+      </div>
+    }
+
+    <div class="mt-8 space-y-4">
+      <p class="text-center text-xs text-gray-400">
+        El paquete llegará en 24-48 horas.
+      </p>
+      
+      <a routerLink="/" 
+         class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-all hover:-translate-y-0.5">
+        Volver a la tienda
+      </a>
+    </div>
+
+  </div>
+</div>

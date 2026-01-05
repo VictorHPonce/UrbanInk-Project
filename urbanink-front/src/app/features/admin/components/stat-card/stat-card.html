@@ -1,0 +1,22 @@
+<div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+      <div class="flex items-start justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-500">{{ title }}</p>
+          <h3 class="text-2xl font-bold text-gray-900 mt-2">{{ value }}</h3>
+        </div>
+        
+        <div [class]="'p-3 rounded-xl ' + iconBgColor">
+          <ng-content select="[icon]"></ng-content> </div>
+      </div>
+
+      @if (trend) {
+        <div class="mt-4 flex items-center text-sm">
+          <span 
+            [class]="trend > 0 ? 'text-emerald-600 bg-emerald-50' : 'text-red-600 bg-red-50'"
+            class="px-2 py-0.5 rounded font-medium flex items-center gap-1">
+            {{ trend > 0 ? '↑' : '↓' }} {{ trend }}%
+          </span>
+          <span class="text-gray-400 ml-2">vs mes anterior</span>
+        </div>
+      }
+    </div>
